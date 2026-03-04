@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ФЛОТ ОТЦА • PoE • 5 МАРТА • EVE ONLINE</title>
+    <title>ФЛОТ ОТЦА • ЧЕЛЯБИНСК • 5 МАРТА</title>
     <style>
         * {
             margin: 0;
@@ -696,6 +696,35 @@
             box-shadow: 0 0 100px gold;
         }
 
+        /* ========== WARCRAFT FROZEN THRONE ========== */
+        .warcraft-section {
+            background: rgba(0, 20, 40, 0.95);
+            border: 4px solid #3399ff;
+            border-radius: 100px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 0 100px #33f, inset 0 0 30px #3cf;
+        }
+
+        .warcraft-title {
+            font-size: 4rem;
+            color: #99ccff;
+            text-shadow: 0 0 30px #3cf;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .warcraft-points {
+            font-size: 3rem;
+            color: #ffd966;
+            text-align: center;
+            margin: 30px 0;
+            background: #0a1a3f;
+            padding: 20px;
+            border-radius: 60px;
+            border: 3px solid #3399ff;
+        }
+
         .footer {
             text-align: center;
             color: #99ccff;
@@ -714,10 +743,11 @@
     <div class="container">
         <!-- ШАПКА -->
         <div class="header">
-            <div class="logo" onclick="showSection('father')">🚀 ФЛОТ ОТЦА • 5 МАРТА</div>
+            <div class="logo" onclick="showSection('father')">🚀 ФЛОТ ОТЦА • 5 МАРТА • ЧЕЛЯБИНСК</div>
             <div class="nav">
                 <div class="nav-btn" onclick="showSection('father')">🎂 Отцу</div>
                 <div class="nav-btn" onclick="showSection('poe')">⚔️ Path of Exile</div>
+                <div class="nav-btn" onclick="showSection('warcraft')">🗡️ Warcraft III</div>
                 <div class="nav-btn" onclick="showSection('feed')">📢 Форум</div>
                 <div class="nav-btn" onclick="showSection('profile')">👤 Профиль</div>
                 <div class="nav-btn" onclick="showSection('search')">🔍 Поиск</div>
@@ -774,7 +804,7 @@
                 </div>
 
                 <div class="timer-section">
-                    <div class="timer-title">⏳ До 5 марта 2026</div>
+                    <div class="timer-title">⏳ До 5 марта (Челябинск)</div>
                     <div class="timer" id="timer">07д 23ч 59м</div>
                 </div>
 
@@ -879,6 +909,50 @@
             </div>
         </div>
 
+        <!-- СЕКЦИЯ WARCRAFT FROZEN THRONE -->
+        <div id="warcraftSection" class="warcraft-section" style="display: none;">
+            <div class="warcraft-title">🗡️ WARCRAFT III: FROZEN THRONE</div>
+            
+            <div class="warcraft-points" id="warcraftPointsDisplay">Очки: 0 / 100</div>
+
+            <div class="minigames-grid">
+                <!-- Игра 1: Кликер нежити -->
+                <div class="minigame-card">
+                    <div class="minigame-title">💀 Кликер нежити</div>
+                    <div class="minigame-area" id="undeadGame" onclick="clickUndead()">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem;">💀</div>
+                    </div>
+                    <div>Уничтожай нежить</div>
+                    <div id="undeadClicks">0/10</div>
+                </div>
+
+                <!-- Игра 2: Собери руны -->
+                <div class="minigame-card">
+                    <div class="minigame-title">🔮 Собери руны</div>
+                    <div class="minigame-area" id="runeGame"></div>
+                    <button class="game-btn" onclick="startRuneGame()" style="padding: 10px 20px;">Старт</button>
+                    <div id="runeScore">0</div>
+                </div>
+
+                <!-- Игра 3: Уклонение от огня дракона -->
+                <div class="minigame-card">
+                    <div class="minigame-title">🐉 Уклонение от огня</div>
+                    <div class="minigame-area" id="dragonGame" onmousemove="moveHero(event)" style="cursor: none;">
+                        <div id="hero" style="position: absolute; width: 30px; height: 30px; background: #3399ff; border-radius: 50%; left: 50%; top: 50%; transform: translate(-50%, -50%);"></div>
+                        <div id="fireball" style="position: absolute; width: 25px; height: 25px; background: #ff6600; border-radius: 50%; left: 0; top: 0;"></div>
+                    </div>
+                    <button class="game-btn" onclick="startDragonGame()" style="padding: 10px 20px;">Старт</button>
+                    <div id="dragonScore">0</div>
+                </div>
+            </div>
+
+            <!-- Приз Warcraft -->
+            <div id="warcraftPrizeSection" style="display: none;" class="poe-reward" style="background: #0a1a3f; border-color: #3399ff;">
+                🏆 ГЛАВНЫЙ ПРИЗ WARCRAFT 🏆<br>
+                <span style="font-size: 2rem;">КОД: АРТАСПРАВИЛАВАЙ НАПИШИ ДАНИЛУ ЧТОБЫ ПОЛУЧИТЬ ПРИЗ</span>
+            </div>
+        </div>
+
         <!-- СЕКЦИЯ ФОРУМА -->
         <div id="feedSection" class="panel" style="display: none;">
             <div class="panel-title">📢 ФОРУМ ФЛОТА</div>
@@ -909,7 +983,7 @@
         </div>
 
         <div class="footer">
-            EVE ONLINE • PATH OF EXILE • 5 МАРТА 2026
+            ЧЕЛЯБИНСК • 5 МАРТА 2026 • EVE ONLINE • WARCRAFT • PoE
         </div>
     </div>
 
@@ -935,6 +1009,7 @@
         let posts = JSON.parse(localStorage.getItem('eve_posts')) || [];
         let currentUser = JSON.parse(localStorage.getItem('eve_currentUser')) || null;
         let poePoints = parseInt(localStorage.getItem('poePoints')) || 0;
+        let warcraftPoints = parseInt(localStorage.getItem('warcraftPoints')) || 0;
 
         function simpleHash(str) {
             let hash = 0;
@@ -950,11 +1025,12 @@
             localStorage.setItem('eve_posts', JSON.stringify(posts));
             localStorage.setItem('eve_currentUser', JSON.stringify(currentUser));
             localStorage.setItem('poePoints', poePoints.toString());
+            localStorage.setItem('warcraftPoints', warcraftPoints.toString());
         }
 
         // ========== НАВИГАЦИЯ ==========
         function showSection(section) {
-            const sections = ['authSection', 'recoverySection', 'fatherSection', 'poeSection', 'feedSection', 'profileSection', 'searchSection'];
+            const sections = ['authSection', 'recoverySection', 'fatherSection', 'poeSection', 'warcraftSection', 'feedSection', 'profileSection', 'searchSection'];
             sections.forEach(s => {
                 const el = document.getElementById(s);
                 if (el) el.style.display = 'none';
@@ -969,6 +1045,9 @@
             } else if (section === 'poe') {
                 document.getElementById('poeSection').style.display = 'block';
                 updatePoeDisplay();
+            } else if (section === 'warcraft') {
+                document.getElementById('warcraftSection').style.display = 'block';
+                updateWarcraftDisplay();
             } else if (section === 'feed') {
                 document.getElementById('feedSection').style.display = 'block';
                 document.getElementById('postFormContainer').style.display = currentUser ? 'block' : 'none';
@@ -1047,7 +1126,8 @@
                 joinDate: new Date().toLocaleDateString(),
                 posts: 0,
                 likes: 0,
-                poePoints: 0
+                poePoints: 0,
+                warcraftPoints: 0
             };
 
             users.push(newUser);
@@ -1214,6 +1294,7 @@
                         </div>
                         <div style="margin-top: 15px;">
                             <span style="background: #aa44aa; padding: 8px 20px; border-radius: 40px;">⚔️ PoE очки: ${poePoints}</span>
+                            <span style="background: #3399ff; padding: 8px 20px; border-radius: 40px; margin-left: 10px;">🗡️ Warcraft очки: ${warcraftPoints}</span>
                         </div>
                     </div>
                 </div>
@@ -1296,11 +1377,14 @@
             }
         };
 
-        // ТАЙМЕР
+        // ТАЙМЕР ПО ЧЕЛЯБИНСКУ (UTC+5)
         function updateTimer() {
-            const birthday = new Date('2026-03-05T00:00:00');
             const now = new Date();
-            const diff = birthday - now;
+            // Челябинское время = UTC+5
+            const chelTime = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (5 * 3600000));
+            const birthday = new Date('2026-03-05T00:00:00+05:00');
+            
+            const diff = birthday - chelTime;
 
             if (diff <= 0) {
                 document.getElementById('timer').innerText = '🎂 С ДНЁМ РОЖДЕНИЯ! 🎂';
@@ -1439,7 +1523,7 @@
             localStorage.setItem('poePoints', poePoints);
             updatePoeDisplay();
             if (poePoints >= 100) {
-                // Можно добавить звук или эффект
+                // Можно добавить эффект
             }
         }
 
@@ -1452,7 +1536,7 @@
                 addPoePoints(25);
                 currencyClicks = 0;
                 document.getElementById('currencyClicks').innerText = '0/10';
-                alert('+25 очков! Продолжай кликать!');
+                alert('+25 очков PoE! Продолжай кликать!');
             }
         };
 
@@ -1484,7 +1568,7 @@
                     if (dodgeScore >= 10) {
                         addPoePoints(25);
                         clearInterval(dodgeInterval);
-                        alert('+25 очков! Ты уклонился 10 раз!');
+                        alert('+25 очков PoE! Ты уклонился 10 раз!');
                     }
                 }
             }, 500);
@@ -1533,7 +1617,7 @@
                     if (orbScore >= 10) {
                         addPoePoints(25);
                         clearInterval(orbInterval);
-                        alert('+25 очков! Ты собрал все сферы!');
+                        alert('+25 очков PoE! Ты собрал все сферы!');
                     }
                 };
                 gameArea.appendChild(orb);
@@ -1556,14 +1640,137 @@
                 addPoePoints(25);
                 monsterKills = 0;
                 document.getElementById('monsterKills').innerText = '0/10';
-                alert('+25 очков! Ты убил 10 монстров!');
+                alert('+25 очков PoE! Ты убил 10 монстров!');
             }
+        };
+
+        // ========== WARCRAFT MINIGAMES ==========
+        function updateWarcraftDisplay() {
+            document.getElementById('warcraftPointsDisplay').innerText = `Очки: ${warcraftPoints} / 100`;
+            if (warcraftPoints >= 100) {
+                document.getElementById('warcraftPrizeSection').style.display = 'block';
+            } else {
+                document.getElementById('warcraftPrizeSection').style.display = 'none';
+            }
+        }
+
+        function addWarcraftPoints(points) {
+            warcraftPoints += points;
+            if (warcraftPoints > 100) warcraftPoints = 100;
+            localStorage.setItem('warcraftPoints', warcraftPoints);
+            updateWarcraftDisplay();
+        }
+
+        // Игра 1: Кликер нежити
+        let undeadClicks = 0;
+        window.clickUndead = function() {
+            undeadClicks++;
+            document.getElementById('undeadClicks').innerText = `${undeadClicks}/10`;
+            if (undeadClicks >= 10) {
+                addWarcraftPoints(33);
+                undeadClicks = 0;
+                document.getElementById('undeadClicks').innerText = '0/10';
+                alert('+33 очка Warcraft! Нежить повержена!');
+            }
+        };
+
+        // Игра 2: Собери руны
+        let runeScore = 0;
+        let runeInterval;
+        
+        window.startRuneGame = function() {
+            if (runeInterval) clearInterval(runeInterval);
+            runeScore = 0;
+            document.getElementById('runeScore').innerText = '0';
+            
+            runeInterval = setInterval(() => {
+                const gameArea = document.getElementById('runeGame');
+                const rune = document.createElement('div');
+                rune.style.position = 'absolute';
+                rune.style.width = '30px';
+                rune.style.height = '30px';
+                rune.style.background = '#3399ff';
+                rune.style.borderRadius = '30%';
+                rune.style.left = Math.random() * (gameArea.offsetWidth - 30) + 'px';
+                rune.style.top = Math.random() * (gameArea.offsetHeight - 30) + 'px';
+                rune.style.cursor = 'pointer';
+                rune.innerHTML = '🔮';
+                rune.style.display = 'flex';
+                rune.style.alignItems = 'center';
+                rune.style.justifyContent = 'center';
+                rune.style.fontSize = '20px';
+                
+                rune.onclick = function() {
+                    runeScore++;
+                    document.getElementById('runeScore').innerText = runeScore;
+                    rune.remove();
+                    
+                    if (runeScore >= 10) {
+                        addWarcraftPoints(33);
+                        clearInterval(runeInterval);
+                        alert('+33 очка Warcraft! Ты собрал все руны!');
+                    }
+                };
+                gameArea.appendChild(rune);
+                
+                setTimeout(() => rune.remove(), 3000);
+            }, 700);
+        };
+
+        // Игра 3: Уклонение от огня дракона
+        let dragonScore = 0;
+        let dragonInterval;
+        
+        window.startDragonGame = function() {
+            if (dragonInterval) clearInterval(dragonInterval);
+            dragonScore = 0;
+            document.getElementById('dragonScore').innerText = '0';
+            
+            dragonInterval = setInterval(() => {
+                const fireball = document.getElementById('fireball');
+                const hero = document.getElementById('hero');
+                
+                fireball.style.left = Math.random() * 250 + 'px';
+                fireball.style.top = Math.random() * 130 + 'px';
+                
+                // Проверка попадания
+                const fireballRect = fireball.getBoundingClientRect();
+                const heroRect = hero.getBoundingClientRect();
+                
+                if (Math.abs(fireballRect.left - heroRect.left) < 30 && 
+                    Math.abs(fireballRect.top - heroRect.top) < 30) {
+                    dragonScore++;
+                    document.getElementById('dragonScore').innerText = dragonScore;
+                    
+                    if (dragonScore >= 10) {
+                        addWarcraftPoints(34);
+                        clearInterval(dragonInterval);
+                        alert('+34 очка Warcraft! Ты уклонился от 10 огненных шаров!');
+                    }
+                }
+            }, 400);
+        };
+
+        window.moveHero = function(e) {
+            const gameArea = document.getElementById('dragonGame');
+            const rect = gameArea.getBoundingClientRect();
+            const hero = document.getElementById('hero');
+            
+            let x = e.clientX - rect.left - 15;
+            let y = e.clientY - rect.top - 15;
+            
+            x = Math.max(0, Math.min(x, rect.width - 30));
+            y = Math.max(0, Math.min(y, rect.height - 30));
+            
+            hero.style.left = x + 'px';
+            hero.style.top = y + 'px';
         };
 
         updateMessages();
         updateCurrentUserInfo();
         showSection('father');
         updatePoeDisplay();
+        updateWarcraftDisplay();
     </script>
 </body>
 </html>
